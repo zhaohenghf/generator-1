@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="common.css?v=1.1">
+    <title>生成代码</title>
+    <style type="text/css">
+        [v-cloak] {
+            display: none
+        }
+    </style>
+</head>
+<body>
+<noscript></noscript>
+<div><a href="/dict">数据字典</a></div>
+<br/>
+<br/>
+<div>
+    <strong id="tips"></strong>
+</div>
+<br/>
+<br/>
+<div>
+    <em>数据库url：</em>
+    <span th:text="${dbUrl}"></span>
+</div>
+<br/>
+<br/>
+<div>
+    <em>根包名：</em>
+    <label>
+        <input type="text" name="packageName" th:value="${packageName}"/>
+    </label>
+</div>
+<br/>
+<div>
+    <em>作者名：</em>
+    <label>
+        <input type="text" name="authorName" th:value="${authorName}"/>
+    </label>
+</div>
+<br/>
+<div>
+    <em>模板目录：</em>
+    <label>
+        <input type="text" name="templateDir" th:value="${templateDir}"/>
+    </label>
+</div>
+<br/>
+<div>
+    <em>目标代码目录：</em>
+    <label>
+        <input type="text" name="targetDir" th:value="${targetDir}"/>
+    </label>
+</div>
+<br/>
+<div>
+    <em>表名：</em>
+    <label th:each="tableName : ${tableNames}">
+        <input type="checkbox" name="tableName[]" th:value="${tableName}"/>
+        <span th:text="${tableName}"></span>
+    </label>
+</div>
+<br/>
+<div>
+    <em></em>
+    <label>
+        <input type="button" value="生成代码" onclick="return onSubmit()"/>
+    </label>
+</div>
+<script type="text/javascript" src="common.js?v=1.1"></script>
+<script type="text/javascript">
+    function onSubmit() {
+        let packageName = FormElement.$("text", "packageName").value;
+        let authorName = FormElement.$("text", "authorName").value;
+        let templateDir = FormElement.$("text", "templateDir").value;
+        let targetDir = FormElement.$("text", "targetDir").value;
+        let tableNames = FormElement.getCheckedValue("checkbox", "tableName[]");
+
+        let data = {
+            packageName: packageName,
+            authorName: authorName,
+            templateDir: templateDir,
+            targetDir: targetDir,
+            tableNames: tableNames
+        };
+
+        Common.id("tips").innerText = "";
+
+        Ajax.post({
+            url: "/code/execute",
+            data: data,
+            success: function (data) {
+                if (data === true) {
+                    Common.id("tips").innerText = "Success";
+                } else {
+                    Common.id("tips").innerText = "Failure";
+                }
+            },
+            error: function (code, message) {
+                Common.id("tips").innerText = message;
+            }
+        });
+    }
+</script>
+</body>
+</html>

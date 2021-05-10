@@ -1,0 +1,35 @@
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+span {
+    height: 24px;
+    line-height: 24px;
+}
+
+label {
+    margin-right: 16px;
+}
+
+em {
+    font-style: normal;
+    display: block;
+    width: 128px;
+    height: 24px;
+    line-height: 24px;
+    float: left;
+}
+
+input[type=text] {
+    width: 480px;
+    height: 24px;
+}
+
+input[type=button] {
+    width: 128px;
+    height: 32px;
+}
+
+#tips {
+    color: red;
+}
