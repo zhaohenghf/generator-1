@@ -25,8 +25,9 @@ public final class Snowflake {
 
     /**
      * 新时间戳时，开始序列用随机数，设置最大随机数，随机数不包含此数
+     * 2的幂次方
      */
-    private static final int MAX_RAND_SEQUENCE = 100;
+    private static final int MAX_RAND_SEQUENCE = 64;
 
     /**
      * 起始年
